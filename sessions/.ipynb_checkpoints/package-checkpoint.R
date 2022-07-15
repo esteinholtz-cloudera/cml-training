@@ -12,13 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # Basic Python Code Example
+# # Basic R Package Example
 
-# A deadline is twelve calendar days from today. 
+# A deadline is ten calendar days from today. 
 # Which date is that?
 
-deadline = date.today() + timedelta(days=12)
+install.packages("lubridate")
 
-from datetime import date, timedelta
+library(lubridate)
 
-deadline.strftime('%A, %B %d, %Y')
+deadline <- today() + days(10)
+
+strftime(deadline, "%A, %B %d, %Y")

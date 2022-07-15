@@ -13,6 +13,10 @@
 # limitations under the License.
 
 # # PySpark Example
+# pip install findspark 
+import findspark
+findspark.init()
+!pip3 install pyspark
 
 # ## Starting a Spark Application
 
@@ -194,7 +198,7 @@ flights \
 # First you must create a temporary view with the
 # DataFrame you want to query:
 
-flights.createOrReplaceTempView('nyc_flights_2013')
+flights.createOrReplaceTempView('flights')
 
 # Then you can use SQL to query the DataFrame:
 
@@ -202,10 +206,21 @@ spark.sql("""
   SELECT origin,
     COUNT(*) AS num_departures,
     AVG(dep_delay) AS avg_dep_delay
-  FROM nyc_flights_2013
+  FROM flights
   WHERE dest = 'SFO'
   GROUP BY origin
-  ORDER BY avg_dep_delay""").show()
+  ORDER BY avg_dep_delay""").toPandas()
+
+# try to find some rows with nulls
+
+spark.sql("""SELECT dep_time
+FROM flights
+WHERE month = 9
+""")
+
+spark.sql("""SELECT *
+FROM flights
+""")
 
 
 # ## Cleanup

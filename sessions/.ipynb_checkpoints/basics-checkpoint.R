@@ -12,13 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # Basic Python Code Example
+# # Basic R Code Example
 
-# A deadline is twelve calendar days from today. 
+# A deadline is ten calendar days from today. 
 # Which date is that?
 
-deadline = date.today() + timedelta(days=12)
+deadline <- Sys.Date() + as.difftime(10, units = "days")
 
-from datetime import date, timedelta
-
-deadline.strftime('%A, %B %d, %Y')
+strftime(deadline, "%A, %B %d, %Y")

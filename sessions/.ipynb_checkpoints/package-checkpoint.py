@@ -12,13 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # Basic Python Code Example
+# # Basic Python Library Example
 
-# A deadline is twelve calendar days from today. 
+# A deadline is ten calendar days from today. 
 # Which date is that?
 
-deadline = date.today() + timedelta(days=12)
+!pip2 install pendulum
 
-from datetime import date, timedelta
+!pip3 install pendulum
+
+import pendulum
+
+deadline = pendulum.today().add(days=10)
 
 deadline.strftime('%A, %B %d, %Y')

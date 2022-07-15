@@ -12,13 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # Basic Python Code Example
+# # Markdown
 
-# A deadline is twelve calendar days from today. 
-# Which date is that?
+# Comments in R code files in CML can 
+# use Markdown syntax. For example:
 
-deadline = date.today() + timedelta(days=12)
+# # Heading 1
 
-from datetime import date, timedelta
+# ## Heading 2
 
-deadline.strftime('%A, %B %d, %Y')
+# ### Heading 3
+
+# Plain text
+
+# *Emphasized text* or _Emphasized text_
+
+# **Bold text**
+
+# `Monospaced text`
+
+# Bulleted list
+# * Item
+#   * Subitem
+# * Item
+
+# Numbered list
+# 1. First Item
+# 2. Second Item
+# 3. Third Item
+
+# [link](https://www.cloudera.com)

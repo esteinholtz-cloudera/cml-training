@@ -12,31 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # pandas Example
+# # dplyr Example
 
-# The code in this file requires:
-# * Python 3.5.3 or higher
-# * pandas 0.25.0 or higher
-# If this code fails to run in a Python 3 session, install the
-# newest version of pandas by running `!pip3 install -U pandas`
+# The code in this file requires the packages readr and dplyr.
+# If this code fails to run in an R session, install these
+# packages by running `install.packages(c("readr", "dplyr"))`
 
 # How many flights to SFO departed from each airport, and what 
 # was the average departure delay (in minutes)?
 
-!pip3 install numpy
-!pip3 install pandas
+library(readr)
 
-import numpy as np
-import pandas as pd
+flights <- read_csv("data/flights.csv")
 
-flights = pd.read_csv('data/flights.csv')
+library(dplyr)
 
-flights \
-  .loc[flights.dest == 'SFO', :] \
-  .groupby('origin') \
-  .agg(
-    num_departures=('flight','size'), \
-    avg_dep_delay=('dep_delay','mean'), \
-  ) \
-  .reset_index() \
-  .sort_values('avg_dep_delay')
+flights %>%
+  filter(dest == "SFO") %>%
+  group_by(origin) %>%
+  summarise(
+    num_departures = n(),
+    avg_dep_delay = mean(dep_delay, na.rm = TRUE)
+  ) %>%
+  arrange(avg_dep_delay)

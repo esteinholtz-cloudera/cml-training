@@ -39,6 +39,7 @@ flights_pd = pd.read_csv('data/flights.csv')
 # some of those steps:
 
 delays_sample_pd = flights_pd \
+	.loc[:500, :500] \
   .filter(['dep_delay', 'arr_delay']) \
   .dropna() \
   .sample(frac=0.10)
@@ -66,4 +67,5 @@ plt.scatter(
 
 # The scatterplot seems to show a positive linear
 # association between departure delay and arrival delay.
+
 

@@ -12,22 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # Matplotlib Example
+# # ggplot2 Example
 
 # ## Preparing Data
 
-# Many plotting libraries including Matplotlib can work
-# with data in pandas DataFrames. Often, the first step
-# to visualize data with Python is to get the data into
-# a pandas DataFrame.
+# Most R plotting functions and packages expect input
+# data to be in in-memory R data frames. Often, the
+# first step to visualize data with R is to get the
+# data into an in-memory R data frame.
 
 # This example reads the flights data from a CSV file
-# into a pandas DataFrame:
+# into a data frame:
 
-import numpy as np
-import pandas as pd
+library(readr)
 
-flights_pd = pd.read_csv('data/flights.csv')
+flights_df <- read_csv("data/flights.csv")
 
 # To prepare data for visualization, it is often
 # useful to:
@@ -35,35 +34,39 @@ flights_pd = pd.read_csv('data/flights.csv')
 # * Drop missing values
 # * Sample or aggregate if the data is large
 
-# This example uses pandas DataFrame methods to perform
-# some of those steps:
+# This example uses dplyr and base R functions to
+# perform some of those steps:
 
-delays_sample_pd = flights_pd \
-  .filter(['dep_delay', 'arr_delay']) \
-  .dropna() \
-  .sample(frac=0.10)
+library(dplyr)
 
-# Alternatively, you could use PySpark to read data
-# into a Spark DataFrame, call Spark DataFrame methods
-# to prepare the data, and call the `toPandas()`
-# method to return a pandas DataFrame.
+delays_sample_df <- flights_df %>%
+  select(dep_delay, arr_delay) %>%
+  na.omit() %>% 
+  sample_frac(0.10)
 
-  
+# Alternatively, you could use sparklyr to read data
+# into a Spark DataFrame and prepare the data, then 
+# use the `collect()` function to return an in-memory
+# R data frame.
+
+
 # ## Visualizing Data
 
-# To create simple plots in Python, you can import
-# `matplotlib.pyplot` and use the functions it provides.
+# The ggplot2 packge is a popular choice for creating
+# data visualizations in R. Start by loading the
+# package:
 
-import matplotlib.pyplot as plt
+library(ggplot2)
+
+# To create a visualization, call `ggplot()`, passing 
+# a data frame and an aesthetic mapping with `aes()`.
+# Then add layers using `geom_` functions.
 
 # For example, create a scatterplot to visualize the
 # relationship between departure delay and arrival delay:
 
-plt.scatter(
-  x = delays_sample_pd['dep_delay'],
-  y = delays_sample_pd['arr_delay']
-)
+ggplot(delays_sample_df, aes(x = dep_delay, y = arr_delay)) +
+  geom_point()
 
 # The scatterplot seems to show a positive linear
 # association between departure delay and arrival delay.
-
