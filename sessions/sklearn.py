@@ -34,6 +34,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 from joblib import dump, load
 
@@ -47,13 +48,12 @@ flights_pd = pd.read_csv('data/flights.csv')
 # Drop unneeded columns then drop rows with missing
 # values or outliers
 flights_clean_pd = flights_pd \
-  .filter(['dep_delay', 'arr_delay']) \
   .dropna() \
   .loc[flights_pd.dep_delay < 400, :]
 
 # Separate the features (x) and targets (y)
-features = flights_clean_pd.filter(['dep_delay'])
-targets = flights_clean_pd.filter(['arr_delay'])
+features = flights_clean_pd.filter(['year', 'month', 'day', 'sched_dep_time', 'hour','minute'])
+targets = flights_clean_pd.filter(['dep_delay'])
 
 # Split the features and targets each into an 80% 
 # training sample and a 20% test sample, using 
@@ -92,11 +92,6 @@ model.score(test_x, test_y)
 # make predictions on the test sample
 test_pred = model.predict(test_x)
 
-# Display a scatterplot of the actual feature values (x)
-# and target (y) values in the test sample, with the 
-# regression line overlaid
-plt.scatter(test_x, test_y); plt.plot(test_x, test_pred, c='k')
-
 # Print the intercept of the linear regression model
 model.intercept_
 
@@ -109,7 +104,13 @@ model.coef_[0]
 
 # See what predictions the trained model generates for
 # five new records (feature values only)
-d = {'dep_delay': [-6.0, 2.0, 11.0, 54.0, 140.0]}
+d = {
+    'year'          :[2013, 2013, 2013],
+    'day'           :[6.0,  2.0, 11.0],
+    'hour'          :[11,   17,   22],
+    'minute'        :[11,   17,   22],
+    'month'         :[1,    6,    10],
+    'sched_dep_time':[1100, 500, 1700]}
 new_data = pd.DataFrame(data=d)
 
 # Call the `predict` method to use the trained model to
@@ -131,3 +132,38 @@ dump(model, 'model.joblib')
 #```python
 #model = load('model.joblib')
 #```
+
+# ## RandomForest
+model2 = RandomForestClassifier()
+
+model2.fit(train_x, train_y)
+
+# ### Evaluate model2
+
+model2.score(test_x, test_y)
+
+
+# ### Interpret model2
+
+test_pred = model2.predict(test_x)
+
+plt.scatter(test_x, test_y); plt.plot(test_x, test_pred, c='k')
+
+model2.intercept_
+
+
+model2.coef_[0]
+
+
+# ### Make Predictions
+
+predictions = model2.predict(new_data)
+
+print(predictions)
+
+# ### Save 
+
+dump(model2, 'model2.joblib') 
+
+
+

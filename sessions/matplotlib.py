@@ -39,6 +39,7 @@ flights_pd = pd.read_csv('data/flights.csv')
 # some of those steps:
 
 delays_sample_pd = flights_pd \
+  .loc[flights_pd.dep_delay < 400, :] \
   .filter(['dep_delay', 'arr_delay']) \
   .dropna() \
   .sample(frac=0.10)

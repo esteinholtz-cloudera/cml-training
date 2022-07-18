@@ -1,6 +1,3 @@
-import findspark
-findspark.init()
-
 import pyspark
 from pyspark.sql import SparkSession
 
@@ -47,14 +44,3 @@ spark.sql("""
   GROUP BY origin
   ORDER BY avg_dep_delay""").toPandas()
 
-# try to find some rows with nulls
-
-spark.sql("""
-SELECT dep_time
-FROM flights
-WHERE dep_time IS NULL
-""").toPandas()
-
-spark.sql("""SELECT *
-FROM flights
-""").show()
