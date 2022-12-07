@@ -17,8 +17,8 @@
 # A deadline is twelve calendar days from today. 
 # Which date is that?
 
-deadline = date.today() + timedelta(days=12)
-
 from datetime import date, timedelta
 
-deadline.strftime('%A, %B %d, %Y')
+deadline = date.today() + timedelta(days=12)
+
+print (deadline)
